@@ -1,0 +1,21 @@
+{
+  "name": "blog-aydesign",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "AY Designs blog content generation and Framer CMS publishing scripts",
+  "scripts": {
+    "discover": "node .claude/skills/general-blog-post/scripts/discover-cms.mjs",
+    "list": "node .claude/skills/general-blog-post/scripts/list-blogs.mjs",
+    "push": "node .claude/skills/general-blog-post/scripts/push-blog.mjs",
+    "update": "node .claude/skills/general-blog-post/scripts/update-blog.mjs",
+    "get": "node .claude/skills/general-blog-post/scripts/get-blog.mjs",
+    "images": "node .claude/skills/general-blog-post/scripts/generate-blog-images-nano-banana.mjs",
+    "upload-image": "node .claude/skills/general-blog-post/scripts/upload-image.mjs"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "framer-api": "^0.1.9",
+    "marked": "^12.0.0",
+    "sharp": "^0.33.4"
+  }
+}
