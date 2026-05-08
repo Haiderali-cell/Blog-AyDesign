@@ -35,25 +35,17 @@ dotenv.config({ path: join(PROJECT_ROOT, ".env") });
 // Run discover-cms.mjs first to get these IDs from your Framer project.
 // ---------------------------------------------------------------------------
 
-const ARTICLES_COLLECTION_ID = process.env.FRAMER_COLLECTION_ID || "REPLACE_WITH_COLLECTION_ID";
-const CATEGORIES_COLLECTION_ID = process.env.FRAMER_CATEGORIES_COLLECTION_ID || null;
+const ARTICLES_COLLECTION_ID = "URVVS5bec";
 
 const FIELDS = {
-  title:      process.env.FRAMER_FIELD_TITLE      || "REPLACE_WITH_FIELD_ID",
-  date:       process.env.FRAMER_FIELD_DATE        || "REPLACE_WITH_FIELD_ID",
-  authorName: process.env.FRAMER_FIELD_AUTHOR_NAME || null,
-  authorPhoto:process.env.FRAMER_FIELD_AUTHOR_PHOTO|| null,
-  image:      process.env.FRAMER_FIELD_IMAGE       || "REPLACE_WITH_FIELD_ID",
-  categories: process.env.FRAMER_FIELD_CATEGORIES  || null,
-  oneLiner:   process.env.FRAMER_FIELD_ONE_LINER   || "REPLACE_WITH_FIELD_ID",
-  content:    process.env.FRAMER_FIELD_CONTENT     || "REPLACE_WITH_FIELD_ID",
+  name:            "bSYd9Dwn8",  // string — article title (shown as Name in CMS)
+  content:         "CoToCvmsn",  // formattedText — article body
+  metaDescription: "AAKgrEp6U",  // string — meta description
+  featureImageAlt: "UtU9TQMq1",  // string — feature image alt text
+  date:            "egTOWMWmI",  // date
+  authorName:      "IHIRuBlbU",  // string
+  category:        "M8lHTj4cF",  // string
 };
-
-const CATEGORY_IDS = {
-  "blog": process.env.FRAMER_CATEGORY_BLOG || "REPLACE_WITH_CATEGORY_ID",
-};
-
-const VALID_CATEGORIES = Object.keys(CATEGORY_IDS);
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -75,10 +67,6 @@ function validateEnv() {
   const missing = ["FRAMER_API_KEY", "FRAMER_PROJECT_URL"].filter(k => !process.env[k]);
   if (missing.length) {
     console.error(`Missing env vars: ${missing.join(", ")} — check .env in project root`);
-    process.exit(1);
-  }
-  if (ARTICLES_COLLECTION_ID === "REPLACE_WITH_COLLECTION_ID") {
-    console.error("Run discover-cms.mjs first to get your Framer collection IDs, then update .env or the FIELDS constants in this script.");
     process.exit(1);
   }
 }
@@ -153,47 +141,22 @@ try {
     process.exit(1);
   }
 
-  // Upload feature image if local file exists
-  let imageUrl = details.feature_image_url || null;
-  const localImage = join(postsDir, "feature-image.webp");
-  if (existsSync(localImage)) {
-    console.log("Uploading feature image to Framer...");
-    const buf = readFileSync(localImage);
-    const asset = await framer.uploadImage({
-      image: { bytes: new Uint8Array(buf), mimeType: "image/webp" },
-      name: `${slug}.webp`,
-    });
-    imageUrl = asset.url;
-    console.log(`Image uploaded: ${imageUrl}`);
-  }
-
-  const authorName = details.author_name || "AY Designs Team";
-
   const fieldData = {
-    [FIELDS.title]:    { type: "string", value: details.title || slug },
-    [FIELDS.date]:     { type: "date",   value: new Date(details.date || new Date()).toISOString() },
-    [FIELDS.oneLiner]: { type: "string", value: (details.meta_description || "").slice(0, 64) },
-    [FIELDS.content]:  { type: "formattedText", value: html, contentType: "html" },
+    [FIELDS.name]:            { type: "string",        value: details.title || slug },
+    [FIELDS.content]:         { type: "formattedText", value: html, contentType: "html" },
+    [FIELDS.metaDescription]: { type: "string",        value: (details.meta_description || "").slice(0, 64) },
+    [FIELDS.featureImageAlt]: { type: "string",        value: details.feature_image_alt || details.title || slug },
+    [FIELDS.date]:            { type: "date",          value: new Date(details.date || new Date()).toISOString() },
+    [FIELDS.authorName]:      { type: "string",        value: details.author_name || "AY Designs Team" },
+    [FIELDS.category]:        { type: "string",        value: (details.categories || "blog").split(",")[0].trim() },
   };
-
-  if (FIELDS.authorName) fieldData[FIELDS.authorName] = { type: "string", value: authorName };
-  if (FIELDS.categories && categories.length > 0) {
-    fieldData[FIELDS.categories] = { type: "multiCollectionReference", value: categories };
-  }
-  if (imageUrl) {
-    fieldData[FIELDS.image] = {
-      type: "image",
-      value: imageUrl,
-      alt: details.feature_image_alt || details.title || slug,
-    };
-  }
 
   await collection.addItems([{ slug, draft: true, fieldData }]);
 
   console.log(`\nDraft created successfully.`);
   console.log(`Slug:  ${slug}`);
   console.log(`Title: ${details.title}`);
-  console.log(`\nPublish in Framer: ${process.env.FRAMER_PROJECT_URL}`);
+  console.log(`\nOpen Framer to review and publish: ${process.env.FRAMER_PROJECT_URL}`);
 } finally {
   await framer.disconnect();
 }

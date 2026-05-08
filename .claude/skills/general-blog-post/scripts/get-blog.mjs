@@ -23,15 +23,16 @@ const SKILL_DIR = join(__dirname, "..");
 const PROJECT_ROOT = join(__dirname, "../../../..");
 dotenv.config({ path: join(PROJECT_ROOT, ".env") });
 
-const ARTICLES_COLLECTION_ID = process.env.FRAMER_COLLECTION_ID || "REPLACE_WITH_COLLECTION_ID";
+const ARTICLES_COLLECTION_ID = "URVVS5bec";
 
 const FIELDS = {
-  title:      process.env.FRAMER_FIELD_TITLE      || "REPLACE_WITH_FIELD_ID",
-  date:       process.env.FRAMER_FIELD_DATE        || "REPLACE_WITH_FIELD_ID",
-  authorName: process.env.FRAMER_FIELD_AUTHOR_NAME || null,
-  image:      process.env.FRAMER_FIELD_IMAGE       || "REPLACE_WITH_FIELD_ID",
-  oneLiner:   process.env.FRAMER_FIELD_ONE_LINER   || "REPLACE_WITH_FIELD_ID",
-  content:    process.env.FRAMER_FIELD_CONTENT     || "REPLACE_WITH_FIELD_ID",
+  name:            "bSYd9Dwn8",
+  content:         "CoToCvmsn",
+  metaDescription: "AAKgrEp6U",
+  featureImageAlt: "UtU9TQMq1",
+  date:            "egTOWMWmI",
+  authorName:      "IHIRuBlbU",
+  category:        "M8lHTj4cF",
 };
 
 function validateEnv() {

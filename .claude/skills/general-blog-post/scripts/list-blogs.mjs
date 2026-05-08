@@ -20,12 +20,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = join(__dirname, "../../../..");
 dotenv.config({ path: join(PROJECT_ROOT, ".env") });
 
-const ARTICLES_COLLECTION_ID = process.env.FRAMER_COLLECTION_ID || "REPLACE_WITH_COLLECTION_ID";
+const ARTICLES_COLLECTION_ID = "URVVS5bec";
 
 const FIELDS = {
-  title:    process.env.FRAMER_FIELD_TITLE    || "REPLACE_WITH_FIELD_ID",
-  date:     process.env.FRAMER_FIELD_DATE     || "REPLACE_WITH_FIELD_ID",
-  oneLiner: process.env.FRAMER_FIELD_ONE_LINER|| "REPLACE_WITH_FIELD_ID",
+  name: "bSYd9Dwn8",
+  date: "egTOWMWmI",
 };
 
 function validateEnv() {
@@ -74,7 +73,7 @@ try {
 
   for (const item of sorted) {
     const status = item.draft ? "DRAFT    " : "PUBLISHED";
-    const title = item.fieldData[FIELDS.title]?.value || "(no title)";
+    const title = item.fieldData[FIELDS.name]?.value || "(no title)";
     const date = (item.fieldData[FIELDS.date]?.value || "").slice(0, 10);
     console.log(`[${status}] ${date}  ${item.slug.padEnd(50)} ${title}`);
   }
