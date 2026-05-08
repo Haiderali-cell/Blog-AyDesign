@@ -114,15 +114,6 @@ marked.use({ renderer });
 
 const html = await marked.parse(markdown);
 
-const categorySlugs = (details.categories || "blog")
-  .split(",")
-  .map(c => c.trim())
-  .filter(c => VALID_CATEGORIES.includes(c));
-
-if (categorySlugs.length === 0) categorySlugs.push("blog");
-
-const categories = categorySlugs.map(s => CATEGORY_IDS[s]).filter(Boolean);
-
 console.log(`Connecting to Framer...`);
 const framer = await connect(process.env.FRAMER_PROJECT_URL, process.env.FRAMER_API_KEY);
 
