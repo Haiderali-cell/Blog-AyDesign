@@ -6,6 +6,7 @@
   "scripts": {
     "discover": "node .claude/skills/general-blog-post/scripts/discover-cms.mjs",
     "list": "node .claude/skills/general-blog-post/scripts/list-blogs.mjs",
+    "export-csv": "node .claude/skills/general-blog-post/scripts/export-csv.mjs",
     "push": "node .claude/skills/general-blog-post/scripts/push-blog.mjs",
     "update": "node .claude/skills/general-blog-post/scripts/update-blog.mjs",
     "get": "node .claude/skills/general-blog-post/scripts/get-blog.mjs",
