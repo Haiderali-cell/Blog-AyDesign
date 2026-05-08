@@ -136,9 +136,18 @@ try {
     [FIELDS.category]:        { type: "string",        value: (details.categories || "blog").split(",")[0].trim() },
   };
 
-  await collection.addItems([{ slug, draft: true, fieldData }]);
+  // Check if slug already exists — update instead of create
+  const existing = (await collection.getItems()).find(i => i.slug === slug);
 
-  console.log(`\nDraft created successfully.`);
+  if (existing) {
+    console.log(`Slug already exists — updating instead of creating...`);
+    await collection.addItems([{ id: existing.id, slug, draft: true, fieldData }]);
+    console.log(`\nPost updated as draft.`);
+  } else {
+    await collection.addItems([{ slug, draft: true, fieldData }]);
+    console.log(`\nDraft created successfully.`);
+  }
+
   console.log(`Slug:  ${slug}`);
   console.log(`Title: ${details.title}`);
   console.log(`\nOpen Framer to review and publish: ${process.env.FRAMER_PROJECT_URL}`);
