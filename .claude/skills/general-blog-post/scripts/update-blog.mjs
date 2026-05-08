@@ -79,20 +79,14 @@ const details = parseDetails(readFileSync(detailsPath, "utf8"));
 const markdown = readFileSync(contentPath, "utf8");
 
 const renderer = new Renderer();
-renderer.table = ({ header, rows }) => {
-  const thCells = header.map(cell =>
-    `<th style="text-align:left;padding:10px 14px;border-bottom:2px solid #0a0a0a;font-weight:600;white-space:nowrap;">${cell.text}</th>`
-  ).join("");
-  const bodyRows = rows.map(row => {
-    const tds = row.map(cell =>
-      `<td style="padding:10px 14px;border-bottom:1px solid #e0e0e0;vertical-align:top;">${cell.text}</td>`
-    ).join("");
-    return `<tr>${tds}</tr>`;
-  }).join("");
-  return `<table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.95em;">
-<thead><tr>${thCells}</tr></thead>
-<tbody>${bodyRows}</tbody>
-</table>`;
+renderer.tablecell = (content, flags) => {
+  if (flags.header) {
+    return `<th style="text-align:left;padding:10px 14px;border-bottom:2px solid #0a0a0a;font-weight:600;white-space:nowrap;">${content}</th>\n`;
+  }
+  return `<td style="padding:10px 14px;border-bottom:1px solid #e0e0e0;vertical-align:top;">${content}</td>\n`;
+};
+renderer.table = (header, body) => {
+  return `<table style="width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.95em;"><thead>\n${header}</thead><tbody>\n${body}</tbody></table>\n`;
 };
 marked.use({ renderer });
 
